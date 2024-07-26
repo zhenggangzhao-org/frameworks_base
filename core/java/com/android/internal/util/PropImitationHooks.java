@@ -23,6 +23,8 @@ import android.app.Application;
 import android.app.TaskStackListener;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Binder;
@@ -34,9 +36,15 @@ import android.util.Log;
 import com.android.internal.R;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Random;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class PropImitationHooks {
 
@@ -175,6 +183,41 @@ public class PropImitationHooks {
         }
 
         sCertifiedProps = res.getStringArray(R.array.config_certifiedBuildProperties);
+        
+        String packageNamePif = "com.goolag.pif";
+
+        if (!Utils.isPackageInstalled(context, packageNamePif)) {
+            Log.e(TAG, "'" + packageNamePif + "' is not installed.");
+        }else{
+            PackageManager pm = context.getPackageManager();
+    
+            try {
+                Resources resources = pm.getResourcesForApplication(packageNamePif);
+    
+                int resourceId = resources.getIdentifier("device_arrays", "array", packageNamePif);
+                if (resourceId != 0) {
+                    String[] deviceArrays = resources.getStringArray(resourceId);
+    
+                    if (deviceArrays.length > 0) {
+                        int randomIndex = new Random().nextInt(deviceArrays.length);
+                        int selectedArrayResId = resources.getIdentifier(deviceArrays[randomIndex], "array", packageNamePif);
+                        String selectedArrayName = resources.getResourceEntryName(selectedArrayResId);
+                        String[] selectedDeviceProps = resources.getStringArray(selectedArrayResId);
+                        sCertifiedProps = selectedDeviceProps;
+    
+                        // Settings.System.putString(context.getContentResolver(), Settings.System.PPU_SPOOF_BUILD_GMS_ARRAY, selectedArrayName);
+                    } else {
+                        Log.e(TAG, "No device arrays found.");
+                    }
+                } else {
+                    Log.e(TAG, "Resource 'device_arrays' not found.");
+                }
+    
+            } catch (PackageManager.NameNotFoundException e) {
+                Log.e(TAG, "Error getting resources for '" + packageNamePif + "': " + e.getMessage());
+            }
+        }
+
         sStockFp = res.getString(R.string.config_stockFingerprint);
         sNetflixModel = res.getString(R.string.config_netflixSpoofModel);
         sIsTablet = res.getBoolean(R.bool.config_spoofasTablet);
