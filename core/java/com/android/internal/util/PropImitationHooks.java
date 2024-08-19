@@ -85,15 +85,15 @@ public class PropImitationHooks {
     private static final ComponentName GMS_ADD_ACCOUNT_ACTIVITY = ComponentName.unflattenFromString(
             "com.google.android.gms/.auth.uiflows.minutemaid.MinuteMaidActivity");
 
-    private static final Map<String, String> sPixelEightProps = Map.of(
-            "PRODUCT", "husky",
-            "DEVICE", "husky",
-            "HARDWARE", "husky",
+    private static final Map<String, String> sPixelNineProps = Map.of(
+            "PRODUCT", "caiman",
+            "DEVICE", "caiman",
+            "HARDWARE", "caiman",
             "MANUFACTURER", "Google",
             "BRAND", "google",
-            "MODEL", "Pixel 8 Pro",
-            "ID", "AP2A.240705.005",
-            "FINGERPRINT", "google/husky/husky:14/AP2A.240705.005/11942872:user/release-keys"
+            "MODEL", "Pixel 9 Pro",
+            "ID", "AD1A.240530.047.U1",
+            "FINGERPRINT", "google/caiman/caiman:14/AD1A.240530.047.U1/12150698:user/release-keys"
     );
 
     private static final Map<String, String> sPixelFiveProps = Map.of(
@@ -103,8 +103,8 @@ public class PropImitationHooks {
             "MANUFACTURER", "Google",
             "BRAND", "google",
             "MODEL", "Pixel 5a",
-            "ID", "AP2A.240705.004",
-            "FINGERPRINT", "google/barbet/barbet:14/AP2A.240705.004/11875680:user/release-keys"
+            "ID", "AP2A.240805.004",
+            "FINGERPRINT", "google/barbet/barbet:14/AP2A.240805.005/12025142:user/release-keys"
     );
 
     private static final Map<String, String> sPixelTabletProps = Map.of(
@@ -114,8 +114,8 @@ public class PropImitationHooks {
             "MANUFACTURER", "Google",
             "BRAND", "google",
             "MODEL", "Pixel Tablet",
-            "ID", "AP2A.240705.005",
-            "FINGERPRINT", "google/tangorpro/tangorpro:14/AP2A.240705.005/11942872:user/release-keys"
+            "ID", "AP2A.240805.005",
+            "FINGERPRINT", "google/tangorpro/tangorpro:14/AP2A.240805.005/12025142:user/release-keys"
     );
 
     private static final Map<String, String> sPixelXLProps = Map.of(
@@ -274,8 +274,8 @@ public class PropImitationHooks {
                     dlog("Spoofing Pixel Tablet for: " + packageName + " process: " + processName);
                     setProps(sPixelTabletProps);
                 } else {
-                    dlog("Spoofing Pixel 8 Pro for: " + packageName + " process: " + processName);
-                    setProps(sPixelEightProps);
+                    dlog("Spoofing Pixel 9 Pro for: " + packageName + " process: " + processName);
+                    setProps(sPixelNineProps);
                 }
                 return;
             case PACKAGE_GPHOTOS:
